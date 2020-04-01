@@ -40,8 +40,8 @@
     border-radius: 40%;
     transform: rotate(60deg);
     box-shadow: inset -1px 2px #c9c9c9;
-  }
-  
+}
+
 .Seeds1:before {
     content: "";
     width: 100%;
@@ -53,9 +53,9 @@
     border-radius: 40%;
     transform: rotate(60deg);
     box-shadow: inset -1px -3px #c9c9c9;
-  }
+}
 
-  .Seeds2 {
+.Seeds2 {
     width: 10%;
     height: 15%;
     position: absolute;
@@ -65,9 +65,9 @@
     border-radius: 40%;
     transform: rotate(10deg);
     box-shadow: inset -3px 0 #c9c9c9;
-  }
-  
-  .Seeds2:before {
+}
+
+.Seeds2:before {
     content: "";
     width: 100%;
     height: 100%;
@@ -78,8 +78,7 @@
     border-radius: 40%;
     transform: rotate(90deg);
     box-shadow: inset 1px 3px #c9c9c9;
-  }
-  
+}
 
 .Meat {
     width: 80%;
