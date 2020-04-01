@@ -6,7 +6,6 @@ import BuildControls from "../../components/Burger/BuildControls";
 import Modal from "../../components/UI/Modal";
 import Spinner from "../../components/UI/Spinner";
 import OrderSummary from "../../components/Burger/OrderSummary";
-// import burger from "../../components/Burger";
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -16,10 +15,6 @@ const INGREDIENT_PRICES = {
 };
 
 class BurgerBuilder extends Component {
-  // constructor(props) {
-  //     super(props);
-  //     this.state = {...}
-  // }
   state = {
     ingredients: null,
     name: "",
@@ -31,17 +26,16 @@ class BurgerBuilder extends Component {
     purchasable: false,
     purchasing: false,
     loading: false,
-    successMsg: ""
+    error: ""
   };
 
   async componentDidMount() {
+    this.setState({ loading: true });
     try {
       let ingredients = await fAxios.get("/ingredients.json");
-      this.setState({ ingredients: ingredients.data });
-      console.log(ingredients.data);
+      this.setState({ ingredients: ingredients.data, loading: false });
     } catch (error) {
-      console.log(error);
-      this.setState({ ingredients: "failed" });
+      this.setState({ loading: false, error: error.message });
     }
   }
 
@@ -115,10 +109,11 @@ class BurgerBuilder extends Component {
     try {
       const orderRes = await fAxios.post("/orders.json", order);
       console.log(orderRes);
-      this.setState({ loading: false, successMsg: "success" });
+      alert("You just purchased: ", orderRes.data)
+      this.setState({ loading: false });
     } catch (error) {
-      console.log(error);
-      this.setState({ loading: false, successMsg: "fail" });
+      console.log(error.message);
+      this.setState({ loading: false });
     }
   };
 
@@ -133,7 +128,7 @@ class BurgerBuilder extends Component {
 
     let orderSummary = null;
     let burger = <Spinner />;
-    if (this.state.ingredients) {
+    if (!this.state.loading) {
       burger = (
         <Fragment>
           <Burger ingredients={this.state.ingredients} />
@@ -144,6 +139,7 @@ class BurgerBuilder extends Component {
             purchasable={this.state.purchasable}
             ordered={this.purchaseHandler}
             price={this.state.totalPrice}
+            ingredients={this.state.ingredients}
           />
         </Fragment>
       );
@@ -161,38 +157,18 @@ class BurgerBuilder extends Component {
       );
     }
 
-    const warningMsg = msg => {
-      orderSummary = <div style={{ textAlign: "center" }}>{msg}</div>;
-      setTimeout(() => {
-        this.setState({ purchasing: false, successMsg: "" });
-      }, 3000);
-    };
-
-    if (this.state.ingredients === "failed") {
-      burger = (
-        <Fragment>
-          <Burger ingredients={this.state.ingredients} />
-          <BuildControls
-            ingredientAdded={this.addIngredientHandler}
-            ingredientRemoved={this.removeIngredientHandler}
-            disabled={disabledInfo}
-            purchasable={this.state.purchasable}
-            ordered={this.purchaseHandler}
-            price={this.state.totalPrice}
-            ingredients={this.state.ingredients}
-          />
-        </Fragment>
+    let error = null;
+    if (this.state.error.length >= 1) {
+      error = (
+        <Modal show modalClosed={() => this.setState({ error: '' })}>
+          {this.state.error}
+        </Modal>
       );
     }
 
-    if (this.state.successMsg === "success") {
-      warningMsg("Purchased");
-    }
-    if (this.state.successMsg === "fail") {
-      warningMsg("Not Purchased");
-    }
     return (
       <Fragment>
+        {error}
         <Modal
           show={this.state.purchasing}
           modalClosed={this.purchaseCancelHandler}

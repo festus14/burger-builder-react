@@ -3,14 +3,23 @@ import React from "react";
 import classes from "./style.css";
 import BuildControl from "./BuildControl";
 
-const controls = [
-  { label: "Salad", type: "salad" },
-  { label: "Bacon", type: "bacon" },
-  { label: "Cheese", type: "cheese" },
-  { label: "Meat", type: "meat" }
-];
-
 const buildControls = props => {
+  let controls = [
+    { label: "Salad", type: "salad" },
+    { label: "Bacon", type: "bacon" },
+    { label: "Cheese", type: "cheese" },
+    { label: "Meat", type: "meat" }
+  ];
+    
+  if (props.ingredients) {
+    let controlKeys = Object.keys(props.ingredients)
+    controls = controlKeys.map(elem => {
+      return { label: elem, type: elem };
+    });
+  }
+
+  console.log(props.ingredients, controls, 'In controlssss');
+
   return (
     <div className={classes.BuildControls}>
       <p>

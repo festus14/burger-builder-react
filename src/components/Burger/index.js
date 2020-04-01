@@ -5,7 +5,8 @@ import BurgerIngredient from "./BurgerIngredient";
 
 const burger = props => {
   let transformedIngredients = <div>Unable to load ingredients, check your connection and reload</div>;
-  if (!props.ingredients === 'failed') {
+
+  if (props.ingredients) {
     transformedIngredients = Object.keys(props.ingredients)
       .map(igKey => {
         return [...Array(props.ingredients[igKey])].map((_, i) => {
