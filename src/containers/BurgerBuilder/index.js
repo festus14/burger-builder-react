@@ -90,31 +90,20 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinueHandler = async () => {
-    this.setState({ loading: true });
-    let order = {
-      ingredients: this.state.ingredients,
-      price: this.state.totalPrice,
-      customer: {
-        name: this.state.name,
-        email: this.state.email,
-        address: {
-          street: this.state.street,
-          zipCode: this.state.zipCode,
-          country: "Nigeria"
-        }
-      },
-      deliveryMethod: "Express"
-    };
-
-    try {
-      const orderRes = await fAxios.post("/orders.json", order);
-      console.log(orderRes);
-      alert("You just purchased: ", orderRes.data)
-      this.setState({ loading: false });
-    } catch (error) {
-      console.log(error.message);
-      this.setState({ loading: false });
+    const queryParams = [];
+    for (let i in this.state.ingredients) {
+      queryParams.push(
+        encodeURIComponent(i) +
+          "=" +
+          encodeURIComponent(this.state.ingredients[i])
+      );
     }
+    queryParams.push("price=" + this.state.totalPrice);
+    const queryString = queryParams.join("&");
+    this.props.history.push({
+      pathname: "/checkout",
+      search: "?" + queryString
+    });
   };
 
   render() {
@@ -124,7 +113,6 @@ class BurgerBuilder extends Component {
     for (let key in disabledInfo) {
       disabledInfo[key] = disabledInfo[key] <= 0;
     }
-    // {salad: true, meat: false, ...}
 
     let orderSummary = null;
     let burger = <Spinner />;
@@ -160,7 +148,7 @@ class BurgerBuilder extends Component {
     let error = null;
     if (this.state.error.length >= 1) {
       error = (
-        <Modal show modalClosed={() => this.setState({ error: '' })}>
+        <Modal show modalClosed={() => this.setState({ error: "" })}>
           {this.state.error}
         </Modal>
       );

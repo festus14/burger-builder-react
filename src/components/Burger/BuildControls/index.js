@@ -10,15 +10,13 @@ const buildControls = props => {
     { label: "Cheese", type: "cheese" },
     { label: "Meat", type: "meat" }
   ];
-    
+
   if (props.ingredients) {
-    let controlKeys = Object.keys(props.ingredients)
+    let controlKeys = Object.keys(props.ingredients);
     controls = controlKeys.map(elem => {
       return { label: elem, type: elem };
     });
   }
-
-  console.log(props.ingredients, controls, 'In controlssss');
 
   return (
     <div className={classes.BuildControls}>
