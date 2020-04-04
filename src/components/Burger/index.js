@@ -7,7 +7,6 @@ const burger = props => {
   let transformedIngredients = (
     <div>Unable to load ingredients, check your connection and reload</div>
   );
-
   if (props.ingredients) {
     transformedIngredients = Object.keys(props.ingredients)
       .map(igKey => {

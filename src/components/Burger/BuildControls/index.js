@@ -5,18 +5,27 @@ import BuildControl from "./BuildControl";
 
 const buildControls = props => {
   let controls = [
-    { label: "Salad", type: "salad" },
-    { label: "Bacon", type: "bacon" },
-    { label: "Cheese", type: "cheese" },
-    { label: "Meat", type: "meat" }
+    { label: "salad", type: "salad" },
+    { label: "bacon", type: "bacon" },
+    { label: "cheese", type: "cheese" },
+    { label: "meat", type: "meat" }
   ];
 
-  if (props.ingredients) {
-    let controlKeys = Object.keys(props.ingredients);
-    controls = controlKeys.map(elem => {
-      return { label: elem, type: elem };
-    });
-  }
+  // if (props.ingredients) {
+  //   let controlKeys = Object.keys(props.ingredients);
+  //   controls = controlKeys.map(elem => {
+  //     return { label: elem, type: elem };
+  //   });
+  // }
+
+  const sum = Object.keys(props.ingredients)
+      .map(igKey => {
+        return props.ingredients[igKey];
+      })
+      .reduce((sum, el) => {
+        return sum + el;
+      }, 0);
+    let able = sum > 0;
 
   return (
     <div className={classes.BuildControls}>
@@ -35,7 +44,7 @@ const buildControls = props => {
       ))}
       <button
         className={classes.OrderButton}
-        disabled={!props.purchasable}
+        disabled={!able}
         onClick={props.ordered}
       >
         ORDER NOW

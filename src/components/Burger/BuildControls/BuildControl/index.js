@@ -4,10 +4,13 @@ import classes from "./style.css";
 
 const buildControl = props => {
   let lessAble = props.disabled;
-  let moreAble = false;
-  if (props.ingredients === null) {
+  // let moreAble = false;
+  // if (props.ingredients === null) {
+  //   lessAble = true;
+  //   moreAble = true;
+  // }
+  if (props.ingredients[props.label] === 0) {
     lessAble = true;
-    moreAble = true;
   }
   return (
     <div className={classes.BuildControl}>
@@ -22,7 +25,7 @@ const buildControl = props => {
       <button
         className={classes.More}
         onClick={props.added}
-        disabled={moreAble}
+        disabled={false}
       >
         More
       </button>

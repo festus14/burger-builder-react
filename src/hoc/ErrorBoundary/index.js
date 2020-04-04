@@ -18,11 +18,6 @@ export default class ErrorBoundary extends Component {
     if (this.state.hasError) {
       // You can render any custom fallback UI
       // return <h1>Something went wrong.</h1>;
-      console.log(
-        "In Error Boundary didn't get here at allele",
-        this.state.hasError,
-        this.state.error
-      );
       return (
         <Fragment>
           <Modal show>Error Here, </Modal>

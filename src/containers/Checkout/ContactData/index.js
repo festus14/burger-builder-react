@@ -5,6 +5,7 @@ import Spinner from "../../../components/UI/Spinner";
 import classes from "./style.css";
 import fAxios from "../../../axios-orders";
 import Input from "../../../components/UI/Input";
+import Modal from "../../../components/UI/Modal";
 
 class ContactData extends Component {
   state = {
@@ -92,7 +93,8 @@ class ContactData extends Component {
       }
     },
     formIsValid: false,
-    loading: false
+    loading: false,
+    error: ""
   };
 
   orderHandler = async event => {
@@ -116,8 +118,7 @@ class ContactData extends Component {
       this.setState({ loading: false });
       this.props.history.push("/");
     } catch (error) {
-      console.log(error.message);
-      this.setState({ loading: false });
+      this.setState({ loading: false, error: error.message });
     }
   };
 
@@ -206,8 +207,19 @@ class ContactData extends Component {
     if (this.state.loading) {
       form = <Spinner />;
     }
+
+    let error = null;
+    if (this.state.error.length >= 1) {
+      error = (
+        <Modal show modalClosed={() => this.setState({ error: "" })}>
+          {this.state.error}
+        </Modal>
+      );
+    }
+
     return (
       <div className={classes.ContactData}>
+        {error}
         <h4>Enter your Contact Data</h4>
         {form}
       </div>

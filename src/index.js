@@ -5,13 +5,20 @@ import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import { BrowserRouter } from "react-router-dom";
 import ErrorBoundary from "./hoc/ErrorBoundary";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import reducer from "./store/reducer";
+
+const store = createStore(reducer);
 
 let app = (
-  <BrowserRouter>
-    <ErrorBoundary>
-      <App />
-    </ErrorBoundary>
-  </BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
+    </BrowserRouter>
+  </Provider>
 );
 
 ReactDOM.render(app, document.getElementById("root"));
