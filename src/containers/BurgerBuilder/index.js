@@ -1,7 +1,10 @@
 import React, { Component, Fragment } from "react";
 import fAxios from "../../axios-orders";
 import { connect } from "react-redux";
-import * as actionTypes from "../../store/actions";
+import {
+  addIngredients,
+  removeIngredients
+} from "../../store/actions/ingredients";
 
 import Burger from "../../components/Burger";
 import BuildControls from "../../components/Burger/BuildControls";
@@ -86,6 +89,8 @@ class BurgerBuilder extends Component {
       );
     }
 
+    console.log('Burgerbuilder', this.props)
+
     return (
       <Fragment>
         {error}
@@ -101,20 +106,14 @@ class BurgerBuilder extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    ingredients: state.ingredients,
-    price: state.totalPrice
-  };
-};
+const mapStateToProps = state => ({
+  ingredients: state.ingredients.ingredients,
+  price: state.ingredients.totalPrice
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onAddIngredient: ingName =>
-      dispatch({ type: actionTypes.ADD_INGREDIENT, ingredientName: ingName }),
-    onRemoveIngredient: ingName =>
-      dispatch({ type: actionTypes.REMOVE_INGREDIENT, ingredientName: ingName })
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  onAddIngredient: ingName => dispatch(addIngredients(ingName)),
+  onRemoveIngredient: ingName => dispatch(removeIngredients(ingName))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(BurgerBuilder);

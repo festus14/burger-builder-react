@@ -5,11 +5,8 @@ import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import { BrowserRouter } from "react-router-dom";
 import ErrorBoundary from "./hoc/ErrorBoundary";
-import { createStore } from "redux";
 import { Provider } from "react-redux";
-import reducer from "./store/reducer";
-
-const store = createStore(reducer);
+import store from "./store";
 
 let app = (
   <Provider store={store}>
