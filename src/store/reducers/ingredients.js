@@ -1,4 +1,4 @@
-import { SET_INGREDIENT } from "../actions/actionTypes";
+import { SET_INGREDIENT, SET_ALL_INGREDIENTS } from "../actions/actionTypes";
 
 const initialState = {
   ingredients: {
@@ -18,8 +18,14 @@ const INGREDIENT_PRICES = {
 };
 
 export default (state = initialState, action) => {
-  const { type, ingredientName, val } = { ...action };
+  const { type, ingredientName, val, ingredients } = { ...action };
   switch (type) {
+    case SET_ALL_INGREDIENTS:
+      return {
+        ...state,
+        ingredients: ingredients
+      };
+
     case SET_INGREDIENT:
       return {
         ...state,

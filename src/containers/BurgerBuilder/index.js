@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from "react";
-import fAxios from "../../axios-orders";
 import { connect } from "react-redux";
 import {
   addIngredients,
-  removeIngredients
-} from "../../store/actions/ingredients";
+  removeIngredients,
+  getIngredients
+} from "../../store/actions";
 
 import Burger from "../../components/Burger";
 import BuildControls from "../../components/Burger/BuildControls";
@@ -16,18 +16,12 @@ class BurgerBuilder extends Component {
   state = {
     purchasable: false,
     purchasing: false,
-    loading: false,
     error: ""
   };
 
   async componentDidMount() {
-    this.setState({ loading: true });
-    try {
-      let ingredients = await fAxios.get("/ingredients.json");
-      this.setState({ ingredients: ingredients.data, loading: false });
-    } catch (error) {
-      this.setState({ loading: false, error: error.message });
-    }
+    let error = await this.props.onGetIngredients();
+    if (error) this.setState({ error: error });
   }
 
   purchaseHandler = () => {
@@ -52,7 +46,7 @@ class BurgerBuilder extends Component {
 
     let orderSummary = null;
     let burger = <Spinner />;
-    if (!this.state.loading) {
+    if (!this.props.isLoading) {
       burger = (
         <Fragment>
           <Burger ingredients={this.props.ingredients} />
@@ -67,7 +61,7 @@ class BurgerBuilder extends Component {
         </Fragment>
       );
 
-      orderSummary = this.state.loading ? (
+      orderSummary = this.props.isLoading ? (
         <Spinner />
       ) : (
         <OrderSummary
@@ -84,12 +78,10 @@ class BurgerBuilder extends Component {
     if (this.state.error.length >= 1) {
       error = (
         <Modal show modalClosed={() => this.setState({ error: "" })}>
-          {this.state.error}
+          <div style={{ textAlign: "center" }}>{this.state.error}</div>
         </Modal>
       );
     }
-
-    console.log('Burgerbuilder', this.props)
 
     return (
       <Fragment>
@@ -108,12 +100,14 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = state => ({
   ingredients: state.ingredients.ingredients,
-  price: state.ingredients.totalPrice
+  price: state.ingredients.totalPrice,
+  isLoading: state.ui.isIngredientsLoading
 });
 
 const mapDispatchToProps = dispatch => ({
   onAddIngredient: ingName => dispatch(addIngredients(ingName)),
-  onRemoveIngredient: ingName => dispatch(removeIngredients(ingName))
+  onRemoveIngredient: ingName => dispatch(removeIngredients(ingName)),
+  onGetIngredients: () => dispatch(getIngredients())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BurgerBuilder);

@@ -1,9 +1,13 @@
 import { createStore, applyMiddleware, combineReducers, compose } from "redux";
 import thunkMiddleware from "redux-thunk";
 import ingredients from "./reducers/ingredients";
+import ui from "./reducers/ui";
+import orders from "./reducers/orders";
 
 const appReducer = combineReducers({
-  ingredients
+  ingredients,
+  ui,
+  orders
 });
 
 const rootReducer = (state, action) => {

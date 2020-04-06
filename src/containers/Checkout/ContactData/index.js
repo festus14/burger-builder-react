@@ -212,7 +212,7 @@ class ContactData extends Component {
     if (this.state.error.length >= 1) {
       error = (
         <Modal show modalClosed={() => this.setState({ error: "" })}>
-          {this.state.error}
+          <div style={{ textAlign: "center" }}>{this.state.error}</div>
         </Modal>
       );
     }
