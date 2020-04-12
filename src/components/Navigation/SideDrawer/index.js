@@ -5,7 +5,7 @@ import NavigationItems from "../NavigationItems";
 import classes from "./style.css";
 import Backdrop from "../../UI/Backdrop";
 
-const sideDrawer = props => {
+const sideDrawer = (props) => {
   let attachedClasses = [classes.SideDrawer, classes.Close];
   if (props.open) {
     attachedClasses = [classes.SideDrawer, classes.Open];

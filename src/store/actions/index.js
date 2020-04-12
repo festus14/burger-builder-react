@@ -11,7 +11,7 @@ export {
   removeIngredients
 } from "./ingredients";
 
-export { getOrders } from "./orders";
+export { getOrders, addOrder } from "./orders";
 
 export const resetApp = () => {
   return async dispatch => {

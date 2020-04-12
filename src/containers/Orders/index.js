@@ -8,7 +8,7 @@ import Spinner from "../../components/UI/Spinner";
 
 class Orders extends Component {
   state = {
-    error: ""
+    error: "",
   };
 
   async componentDidMount() {
@@ -33,7 +33,7 @@ class Orders extends Component {
     if (!props.isLoading) {
       order = (
         <div>
-          {props.orders.map(order => (
+          {props.orders.map((order) => (
             <Order
               key={order.id}
               ingredients={order.ingredients}
@@ -53,13 +53,13 @@ class Orders extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   orders: state.orders.orders,
-  isLoading: state.ui.isOrderLoading
+  isLoading: state.ui.isOrderLoading,
 });
 
-const mapDispatchToProps = dispatch => ({
-  onGetOrders: () => dispatch(getOrders())
+const mapDispatchToProps = (dispatch) => ({
+  onGetOrders: () => dispatch(getOrders()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Orders);

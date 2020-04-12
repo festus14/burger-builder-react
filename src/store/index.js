@@ -7,14 +7,13 @@ import orders from "./reducers/orders";
 const appReducer = combineReducers({
   ingredients,
   ui,
-  orders
+  orders,
 });
 
 const rootReducer = (state, action) => {
   if (action.type === "RESET_APP") {
     state = undefined;
   }
-
   return appReducer(state, action);
 };
 

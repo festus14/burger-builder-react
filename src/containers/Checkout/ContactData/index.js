@@ -3,9 +3,10 @@ import React, { Component } from "react";
 import Button from "../../../components/UI/Button";
 import Spinner from "../../../components/UI/Spinner";
 import classes from "./style.css";
-import fAxios from "../../../axios-orders";
 import Input from "../../../components/UI/Input";
 import Modal from "../../../components/UI/Modal";
+import { connect } from "react-redux";
+import { addOrder } from "../../../store/actions";
 
 class ContactData extends Component {
   state = {
@@ -14,92 +15,90 @@ class ContactData extends Component {
         elementType: "input",
         elementConfig: {
           type: "text",
-          placeholder: "Your Name"
+          placeholder: "Your Name",
         },
         value: "",
         validation: {
-          required: true
+          required: true,
         },
         valid: false,
-        touched: false
+        touched: false,
       },
       street: {
         elementType: "input",
         elementConfig: {
           type: "text",
-          placeholder: "Street"
+          placeholder: "Street",
         },
         value: "",
         validation: {
-          required: true
+          required: true,
         },
         valid: false,
-        touched: false
+        touched: false,
       },
       zipCode: {
         elementType: "input",
         elementConfig: {
           type: "text",
-          placeholder: "ZIP Code"
+          placeholder: "ZIP Code",
         },
         value: "",
         validation: {
           required: true,
           minLength: 5,
           maxLength: 5,
-          isNumeric: true
+          isNumeric: true,
         },
         valid: false,
-        touched: false
+        touched: false,
       },
       country: {
         elementType: "input",
         elementConfig: {
           type: "text",
-          placeholder: "Country"
+          placeholder: "Country",
         },
         value: "",
         validation: {
-          required: true
+          required: true,
         },
         valid: false,
-        touched: false
+        touched: false,
       },
       email: {
         elementType: "input",
         elementConfig: {
           type: "email",
-          placeholder: "Your E-Mail"
+          placeholder: "Your E-Mail",
         },
         value: "",
         validation: {
           required: true,
-          isEmail: true
+          isEmail: true,
         },
         valid: false,
-        touched: false
+        touched: false,
       },
       deliveryMethod: {
         elementType: "select",
         elementConfig: {
           options: [
             { value: "fastest", displayValue: "Fastest" },
-            { value: "cheapest", displayValue: "Cheapest" }
-          ]
+            { value: "cheapest", displayValue: "Cheapest" },
+          ],
         },
         value: "",
         validation: {},
-        valid: true
-      }
+        valid: true,
+      },
     },
     formIsValid: false,
-    loading: false,
-    error: ""
+    error: "",
   };
 
-  orderHandler = async event => {
+  orderHandler = async (event) => {
     event.preventDefault();
-    this.setState({ loading: true });
     const formData = {};
     for (let formElementIdentifier in this.state.orderForm) {
       formData[formElementIdentifier] = this.state.orderForm[
@@ -109,16 +108,15 @@ class ContactData extends Component {
     const order = {
       ingredients: this.props.ingredients,
       price: this.props.price,
-      orderData: formData
+      orderData: formData,
     };
 
-    try {
-      const orderRes = await fAxios.post("/orders.json", order);
-      console.log(orderRes);
-      this.setState({ loading: false });
+    let error = await this.props.onAddOrder(order);
+
+    if (!error) {
       this.props.history.push("/");
-    } catch (error) {
-      this.setState({ loading: false, error: error.message });
+    } else {
+      this.setState({ error: error });
     }
   };
 
@@ -155,10 +153,10 @@ class ContactData extends Component {
 
   inputChangedHandler = (event, inputIdentifier) => {
     const updatedOrderForm = {
-      ...this.state.orderForm
+      ...this.state.orderForm,
     };
     const updatedFormElement = {
-      ...updatedOrderForm[inputIdentifier]
+      ...updatedOrderForm[inputIdentifier],
     };
     updatedFormElement.value = event.target.value;
     updatedFormElement.valid = this.checkValidity(
@@ -180,13 +178,13 @@ class ContactData extends Component {
     for (let key in this.state.orderForm) {
       formElementsArray.push({
         id: key,
-        config: this.state.orderForm[key]
+        config: this.state.orderForm[key],
       });
     }
 
     let form = (
       <form onSubmit={this.orderHandler}>
-        {formElementsArray.map(formElement => (
+        {formElementsArray.map((formElement) => (
           <Input
             key={formElement.id}
             elementType={formElement.config.elementType}
@@ -195,7 +193,7 @@ class ContactData extends Component {
             invalid={!formElement.config.valid}
             shouldValidate={formElement.config.validation}
             touched={formElement.config.touched}
-            changed={event => this.inputChangedHandler(event, formElement.id)}
+            changed={(event) => this.inputChangedHandler(event, formElement.id)}
           />
         ))}
         <Button btnType="Success" disabled={!this.state.formIsValid}>
@@ -204,7 +202,7 @@ class ContactData extends Component {
       </form>
     );
 
-    if (this.state.loading) {
+    if (this.props.isLoading) {
       form = <Spinner />;
     }
 
@@ -227,4 +225,12 @@ class ContactData extends Component {
   }
 }
 
-export default ContactData;
+const mapDispatchToProps = (dispatch) => ({
+  onAddOrder: (order) => dispatch(addOrder(order)),
+});
+
+const mapStateToProps = (state) => ({
+  isLoading: state.ui.isOrderLoading,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactData);

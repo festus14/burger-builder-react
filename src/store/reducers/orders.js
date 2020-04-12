@@ -1,7 +1,7 @@
 import { SET_ORDERS } from "../actions/actionTypes";
 
 const initialState = {
-  orders: []
+  orders: [],
 };
 
 export default (state = initialState, { type, orders }) => {
@@ -9,7 +9,7 @@ export default (state = initialState, { type, orders }) => {
     case SET_ORDERS:
       return {
         ...state,
-        orders: orders
+        orders: orders,
       };
 
     default:
