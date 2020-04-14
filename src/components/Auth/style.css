@@ -11,12 +11,13 @@
 .Auth span{
     color: red;
     font-weight: lighter;
-    font-size: medium;
+    font-size: small;
+    cursor: pointer;
 }
 
 .Auth p{
     font-weight: lighter;
-    font-size: medium;
+    font-size: small;
 }
 
 @media (min-width: 600px) {

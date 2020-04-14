@@ -40,6 +40,7 @@ export default class ForgotPassword extends Component {
         ))}
         <Button
           btnType="Success"
+          hasBackground="SuccessBackground"
           disabled={!formIsValid}
           clicked={forgotPasswordHandler}
         >

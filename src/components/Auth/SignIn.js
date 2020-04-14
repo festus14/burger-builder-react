@@ -40,11 +40,16 @@ export default class SignIn extends Component {
             changed={(event) => onChanged(event, formElement.id)}
           />
         ))}
-        <Button btnType="Danger" clicked={toSignUp}>
+        <Button
+          btnType="Success"
+          hasBackground="SuccessBackground"
+          clicked={toSignUp}
+        >
           Sign Up
         </Button>
         <Button
-          btnType="Success"
+          btnType="Danger"
+          hasBackground="DangerBackground"
           disabled={!formIsValid}
           clicked={signInHandler}
         >

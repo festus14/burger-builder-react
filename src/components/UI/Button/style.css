@@ -1,48 +1,93 @@
 .Button {
-    background-color: transparent;
-    border: none;
-    color: white;
-    outline: none;
-    cursor: pointer;
-    font: inherit;
-    padding: 10px;
-    margin: 10px;
-    font-weight: bold;
+  background-color: transparent;
+  border: none;
+  color: white;
+  outline: none;
+  cursor: pointer;
+  font: inherit;
+  padding: 10px;
+  margin: 10px;
+  font-weight: bold;
 }
 
 .Button:first-of-type {
-    margin-left: 0;
-    padding-left: 0;
+  margin-left: 0;
+  padding-left: 10;
 }
 
 .Button:disabled {
-    color: #ccc;
-    cursor: not-allowed;
+  color: #ccc;
+  cursor: not-allowed;
 }
 
 .Success {
-    color: #5c9210;
+  color: #5c9210;
 }
 
 .Danger {
-    color: #944317;
+  color: #944317;
 }
 
-.hasBackGround {
-    background-color: #DAD735;
-    border: 1px solid #966909;
-    color: #966909;
-    box-shadow: 2px 2px 2px #966909;
+.SuccessBackground {
+  background-color: #5c9210;
+  border: 1px solid #966909;
+  color: #fff;
+  font-size: 1.1em;
+  box-shadow: 1.5px 1.5px 1.5px #966909;
 }
 
-.hasBackGround:hover,
-.hasBackGround:active {
-    background-color: #A0DB41;
-    border: 1px solid #966909;
-    color: #966909;
+.SuccessBackground:hover,
+.SuccessBackground:active {
+  background-color: #a0db41;
+  border: 1px solid #966909;
+  color: #966909;
 }
 
-.hasBackGround:disabled {
-    background-color: #C7C6C6;
-    border: 1px solid #ccc;
+.SuccessBackground:disabled {
+  background-color: #c7c6c6;
+  cursor: not-allowed;
+  border: 1px solid #ccc;
+  color: #888888;
+}
+
+.SuccessBackground:not(:disabled) {
+  animation: enable 0.3s linear;
+}
+
+.DangerBackground {
+  background-color: #944317;
+  border: 1px solid #966909;
+  color: #fff;
+  font-size: 1.1em;
+  box-shadow: 1.5px 1.5px 1.5px #966909;
+}
+
+.DangerBackground:hover,
+.DangerBackground:active {
+  background-color: #eb590b;
+  border: 1px solid #966909;
+  color: #a0db41;
+}
+
+.DangerBackground:disabled {
+  background-color: #c7c6c6;
+  cursor: not-allowed;
+  border: 1px solid #ccc;
+  color: #888888;
+}
+
+.DangerBackground:not(:disabled) {
+  animation: enable 0.3s linear;
+}
+
+@keyframes enable {
+  0% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }

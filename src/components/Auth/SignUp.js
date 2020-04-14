@@ -39,12 +39,13 @@ export default class SignUp extends Component {
         ))}
         <Button
           btnType="Success"
+          hasBackground="SuccessBackground"
           disabled={!formIsValid}
           clicked={signUpHandler}
         >
           Sign Up
         </Button>
-        <Button btnType="Danger" clicked={toSignIn}>
+        <Button btnType="Danger" hasBackground="DangerBackground" clicked={toSignIn}>
           Sign In
         </Button>
       </form>
