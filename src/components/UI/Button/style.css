@@ -27,3 +27,22 @@
 .Danger {
     color: #944317;
 }
+
+.hasBackGround {
+    background-color: #DAD735;
+    border: 1px solid #966909;
+    color: #966909;
+    box-shadow: 2px 2px 2px #966909;
+}
+
+.hasBackGround:hover,
+.hasBackGround:active {
+    background-color: #A0DB41;
+    border: 1px solid #966909;
+    color: #966909;
+}
+
+.hasBackGround:disabled {
+    background-color: #C7C6C6;
+    border: 1px solid #ccc;
+}

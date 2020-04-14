@@ -3,36 +3,29 @@ import React from "react";
 import classes from "./style.css";
 import BuildControl from "./BuildControl";
 
-const buildControls = props => {
+const buildControls = (props) => {
   let controls = [
     { label: "salad", type: "salad" },
     { label: "bacon", type: "bacon" },
     { label: "cheese", type: "cheese" },
-    { label: "meat", type: "meat" }
+    { label: "meat", type: "meat" },
   ];
 
-  // if (props.ingredients) {
-  //   let controlKeys = Object.keys(props.ingredients);
-  //   controls = controlKeys.map(elem => {
-  //     return { label: elem, type: elem };
-  //   });
-  // }
-
   const sum = Object.keys(props.ingredients)
-      .map(igKey => {
-        return props.ingredients[igKey];
-      })
-      .reduce((sum, el) => {
-        return sum + el;
-      }, 0);
-    let able = sum > 0;
+    .map((igKey) => {
+      return props.ingredients[igKey];
+    })
+    .reduce((sum, el) => {
+      return sum + el;
+    }, 0);
+  let able = sum > 0;
 
   return (
     <div className={classes.BuildControls}>
       <p>
         Current Price: <strong>{props.price.toFixed(2)}</strong>
       </p>
-      {controls.map(ctrl => (
+      {controls.map((ctrl) => (
         <BuildControl
           key={ctrl.label}
           label={ctrl.label}

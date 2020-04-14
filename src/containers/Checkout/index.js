@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 import CheckoutSummary from "../../components/Order/CheckoutSummary";
@@ -15,7 +15,14 @@ class Checkout extends Component {
   };
 
   render() {
-    return (
+    let sum = 0;
+    for (const key in this.props.ingredients) {
+      if (this.props.ingredients.hasOwnProperty(key)) {
+        const element = this.props.ingredients[key];
+        sum += element;
+      }
+    }
+    let summary = sum >= 1 ? (
       <div>
         <CheckoutSummary
           ingredients={this.props.ingredients}
@@ -24,7 +31,7 @@ class Checkout extends Component {
         />
         <Route
           path={this.props.match.path + "/contact-data"}
-          render={props => (
+          render={(props) => (
             <ContactData
               ingredients={this.props.ingredients}
               price={this.props.totalPrice}
@@ -33,14 +40,19 @@ class Checkout extends Component {
           )}
         />
       </div>
+    ) : (
+      <div>
+        <Redirect to="/" />
+      </div>
     );
+    return summary;
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     ingredients: state.ingredients.ingredients,
-    totalPrice: state.ingredients.totalPrice
+    totalPrice: state.ingredients.totalPrice,
   };
 };
 
