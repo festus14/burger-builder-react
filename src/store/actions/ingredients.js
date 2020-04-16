@@ -1,5 +1,5 @@
 import { SET_INGREDIENT, SET_ALL_INGREDIENTS } from "./actionTypes";
-import fAxios from "../../axios-orders";
+import fAxios from "../../util/axios-orders";
 import { ingredientsUiStartLoading, ingredientsUiStopLoading } from ".";
 
 export const setIngredients = (ingredientName, val) => {

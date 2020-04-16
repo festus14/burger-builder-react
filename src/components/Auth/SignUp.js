@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Input from "../UI/Input";
 import Button from "../UI/Button";
 import classes from "./style.css";
+import Loader from "../../assets/images/loader.svg";
 
 export default class SignUp extends Component {
   render() {
@@ -12,6 +13,7 @@ export default class SignUp extends Component {
       onChanged,
       signUpHandler,
       formIsValid,
+      isLoading,
     } = this.props;
 
     const formElementsArray = [];
@@ -43,9 +45,19 @@ export default class SignUp extends Component {
           disabled={!formIsValid}
           clicked={signUpHandler}
         >
-          Sign Up
+          {isLoading ? (
+            <div>
+            <img src={Loader} alt="Loader" />
+            </div>
+          ) : (
+            "Sign Up"
+          )}
         </Button>
-        <Button btnType="Danger" hasBackground="DangerBackground" clicked={toSignIn}>
+        <Button
+          btnType="Danger"
+          hasBackground="DangerBackground"
+          clicked={toSignIn}
+        >
           Sign In
         </Button>
       </form>

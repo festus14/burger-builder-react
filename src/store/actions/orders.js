@@ -1,5 +1,5 @@
 import { SET_ORDERS } from "./actionTypes";
-import fAxios from "../../axios-orders";
+import fAxios from "../../util/axios-orders";
 import { ordersUiStartLoading, ordersUiStopLoading } from ".";
 
 export const setOrders = (fetchedOrders) => {

@@ -3,11 +3,15 @@ import thunkMiddleware from "redux-thunk";
 import ingredients from "./reducers/ingredients";
 import ui from "./reducers/ui";
 import orders from "./reducers/orders";
+import auth from "./reducers/auth";
+import user from "./reducers/user";
 
 const appReducer = combineReducers({
   ingredients,
   ui,
   orders,
+  auth,
+  user,
 });
 
 const rootReducer = (state, action) => {

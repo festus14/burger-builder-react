@@ -2,12 +2,15 @@ import {
   INGREDIENTS_UI_START_LOADING,
   INGREDIENTS_UI_STOP_LOADING,
   ORDERS_UI_START_LOADING,
-  ORDERS_UI_STOP_LOADING
+  ORDERS_UI_STOP_LOADING,
+  USER_UI_START_LOADING,
+  USER_UI_STOP_LOADING,
 } from "../actions/actionTypes";
 
 const initialState = {
   isIngredientsLoading: false,
-  isOrderLoading: false
+  isOrderLoading: false,
+  isUserLoading: false,
 };
 
 export default (state = initialState, action) => {
@@ -20,18 +23,28 @@ export default (state = initialState, action) => {
     case INGREDIENTS_UI_STOP_LOADING:
       return {
         ...state,
-        isIngredientsLoading: false
+        isIngredientsLoading: false,
       };
-      case ORDERS_UI_START_LOADING:
-        return {
-          ...state,
-          isOrderLoading: true,
-        };
-      case ORDERS_UI_STOP_LOADING:
-        return {
-          ...state,
-          isOrderLoading: false
-        };
+    case ORDERS_UI_START_LOADING:
+      return {
+        ...state,
+        isOrderLoading: true,
+      };
+    case ORDERS_UI_STOP_LOADING:
+      return {
+        ...state,
+        isOrderLoading: false,
+      };
+    case USER_UI_START_LOADING:
+      return {
+        ...state,
+        isUserLoading: true,
+      };
+    case USER_UI_STOP_LOADING:
+      return {
+        ...state,
+        isUserLoading: false,
+      };
     default:
       return state;
   }

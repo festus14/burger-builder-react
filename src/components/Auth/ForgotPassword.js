@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Input from "../UI/Input";
 import Button from "../UI/Button";
 import classes from "./style.css";
+import Loader from "../../assets/images/loader.svg";
 
 export default class ForgotPassword extends Component {
   render() {
@@ -11,6 +12,7 @@ export default class ForgotPassword extends Component {
       authForm,
       onChanged,
       formIsValid,
+      isLoading,
     } = this.props;
 
     const formElementsArray = [];
@@ -44,7 +46,7 @@ export default class ForgotPassword extends Component {
           disabled={!formIsValid}
           clicked={forgotPasswordHandler}
         >
-          Submit
+          {isLoading ? <img src={Loader} alt="Loader" /> : "Submit"}
         </Button>
       </form>
     );

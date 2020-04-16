@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Input from "../UI/Input";
 import Button from "../UI/Button";
 import classes from "./style.css";
+import Loader from "../../assets/images/loader.svg";
 
 export default class SignIn extends Component {
   render() {
@@ -12,6 +13,7 @@ export default class SignIn extends Component {
       onChanged,
       signInHandler,
       formIsValid,
+      isLoading,
     } = this.props;
 
     const formElementsArray = [];
@@ -24,7 +26,6 @@ export default class SignIn extends Component {
         config: authForm[key],
       });
     }
-    console.log(formIsValid);
 
     let form = (
       <form>
@@ -53,7 +54,7 @@ export default class SignIn extends Component {
           disabled={!formIsValid}
           clicked={signInHandler}
         >
-          Sign In
+          {isLoading ? <img src={Loader} alt="Loader" /> : "Sign In"}
         </Button>
       </form>
     );

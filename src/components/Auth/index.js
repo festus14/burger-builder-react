@@ -1,8 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import SignIn from "./SignIn";
 import ForgotPassword from "./ForgotPassword";
 import SignUp from "./SignUp";
+import { signUp, logIn } from "../../store/actions";
+import Modal from "../UI/Modal";
 
 export class index extends Component {
   constructor(props) {
@@ -138,15 +140,36 @@ export class index extends Component {
     this.setState({ formIsValid: formIsValid });
   };
 
-  signInHandler = (e) => {
+  signInHandler = async (e) => {
     e.preventDefault();
+    let authForms = this.state.authForms;
+    let error = await this.props.onSignIn(
+      authForms.email.value,
+      authForms.password.value
+    );
+    if (!error) {
+      alert("user signed in");
+    } else {
+      this.setState({ error: error });
+    }
   };
 
-  signUpHandler = (e) => {
+  signUpHandler = async (e) => {
     e.preventDefault();
+    let authForms = this.state.authForms;
+    let error = await this.props.onSignUp(
+      authForms.email.value,
+      authForms.password.value,
+      authForms.name.value
+    );
+    if (!error) {
+      alert("user signed up");
+    } else {
+      this.setState({ error: error });
+    }
   };
 
-  forgotPasswordHandler = (e) => {
+  forgotPasswordHandler = async (e) => {
     e.preventDefault();
   };
 
@@ -158,50 +181,79 @@ export class index extends Component {
       signUpFormIsValid,
       forgotFormIsValid,
     } = this.state;
+
+    const { isLoading } = this.props;
+
+    let error = null;
+    if (this.state.error.length >= 1) {
+      error = (
+        <Modal show modalClosed={() => this.setState({ error: "" })}>
+          <div style={{ textAlign: "center" }}>{this.state.error}</div>
+        </Modal>
+      );
+    }
+
     switch (authState) {
       case "sign-in":
         return (
-          <SignIn
-            toSignUp={() => this.setState({ authState: "sign-up" })}
-            toForgotPassword={() =>
-              this.setState({ authState: "forgot-password" })
-            }
-            authForm={authForms}
-            formIsValid={signInFormIsValid}
-            onChanged={this.inputChangedHandler}
-            signInHandler={this.signInHandler}
-          />
+          <Fragment>
+            {error}
+            <SignIn
+              toSignUp={() => this.setState({ authState: "sign-up" })}
+              toForgotPassword={() =>
+                this.setState({ authState: "forgot-password" })
+              }
+              authForm={authForms}
+              formIsValid={signInFormIsValid}
+              onChanged={this.inputChangedHandler}
+              signInHandler={this.signInHandler}
+              isLoading={isLoading}
+            />
+          </Fragment>
         );
 
       case "forgot-password":
         return (
-          <ForgotPassword
-            toSignIn={() => this.setState({ authState: "sign-in" })}
-            authForm={authForms}
-            formIsValid={forgotFormIsValid}
-            onChanged={this.inputChangedHandler}
-            forgotPasswordHandler={this.forgotPasswordHandler}
-          />
+          <Fragment>
+            {error}
+            <ForgotPassword
+              toSignIn={() => this.setState({ authState: "sign-in" })}
+              authForm={authForms}
+              formIsValid={forgotFormIsValid}
+              onChanged={this.inputChangedHandler}
+              forgotPasswordHandler={this.forgotPasswordHandler}
+              isLoading={isLoading}
+            />
+          </Fragment>
         );
       default:
         return (
-          <SignUp
-            toSignIn={() => this.setState({ authState: "sign-in" })}
-            toForgotPassword={() =>
-              this.setState({ authState: "forgot-password" })
-            }
-            authForm={authForms}
-            formIsValid={signUpFormIsValid}
-            onChanged={this.inputChangedHandler}
-            signUpHandler={this.signUpHandler}
-          />
+          <Fragment>
+            {error}
+            <SignUp
+              toSignIn={() => this.setState({ authState: "sign-in" })}
+              toForgotPassword={() =>
+                this.setState({ authState: "forgot-password" })
+              }
+              authForm={authForms}
+              formIsValid={signUpFormIsValid}
+              onChanged={this.inputChangedHandler}
+              signUpHandler={this.signUpHandler}
+              isLoading={isLoading}
+            />
+          </Fragment>
         );
     }
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  isLoading: state.ui.isUserLoading,
+});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  onSignUp: (email, password, username) => signUp(email, password, username),
+  onSignIn: (email, password) => logIn(email, password),
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(index);

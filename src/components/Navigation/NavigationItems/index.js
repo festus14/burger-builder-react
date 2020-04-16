@@ -3,6 +3,7 @@ import React from "react";
 import classes from "./style.css";
 import NavigationItem from "./NavigationItem";
 import { Link } from "react-router-dom";
+import userIcon from "../../../assets/images/user-icon.svg";
 
 const navigationItems = () => (
   <ul className={classes.NavigationItems}>
@@ -11,7 +12,9 @@ const navigationItems = () => (
     </NavigationItem>
     <NavigationItem link="/orders">Orders</NavigationItem>
     <li className={classes.Profile}>
-      <div>Profile</div>
+      <div style={{ textAlign: "center", minWidth: "35px" }}>
+        <img width="20px" src={userIcon} alt="User" />
+      </div>
       <div className={classes.DropDownOptions}>
         <Link to="/">Profile</Link>
         <Link to="/auth">Log in</Link>
