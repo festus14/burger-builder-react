@@ -148,7 +148,7 @@ export class index extends Component {
       authForms.password.value
     );
     if (!error) {
-      alert("user signed in");
+      this.props.history.push("/");
     } else {
       this.setState({ error: error });
     }
@@ -163,7 +163,7 @@ export class index extends Component {
       authForms.name.value
     );
     if (!error) {
-      alert("user signed up");
+      this.props.history.push("/");
     } else {
       this.setState({ error: error });
     }
@@ -251,9 +251,10 @@ const mapStateToProps = (state) => ({
   isLoading: state.ui.isUserLoading,
 });
 
-const mapDispatchToProps = {
-  onSignUp: (email, password, username) => signUp(email, password, username),
-  onSignIn: (email, password) => logIn(email, password),
-};
+const mapDispatchToProps = (dispatch) => ({
+  onSignUp: (email, password, username) =>
+    dispatch(signUp(email, password, username)),
+  onSignIn: (email, password) => dispatch(logIn(email, password)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(index);

@@ -1,3 +1,5 @@
+import { removeAuthenticatedState } from "../../services/Auth";
+
 export {
   ingredientsUiStartLoading,
   ingredientsUiStopLoading,
@@ -19,6 +21,7 @@ export { getUser } from "./user";
 
 export const resetApp = () => {
   return async (dispatch) => {
+    removeAuthenticatedState();
     dispatch(reset());
   };
 };
