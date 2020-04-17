@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 
 import classes from "./style.css";
 import NavigationItem from "./NavigationItem";
@@ -9,24 +9,31 @@ import { logOut } from "../../../store/actions";
 
 const navigationItems = (props) => {
   console.log(props);
-  const { onLogOut } = props;
+  const { onLogOut, isAuth } = props;
   return (
     <ul className={classes.NavigationItems}>
       <NavigationItem link="/" exact>
         Burger Builder
       </NavigationItem>
-      <NavigationItem link="/orders">Orders</NavigationItem>
+      {isAuth ? <NavigationItem link="/orders">Orders</NavigationItem> : null}
       <li className={classes.Profile}>
         <div style={{ textAlign: "center", minWidth: "35px" }}>
           <img width="20px" src={userIcon} alt="User" />
         </div>
         <div className={classes.DropDownOptions}>
-          <Link to="/">Profile</Link>
-          <Link to="/auth">Log in</Link>
-          <Link to="/">My Orders</Link>
-          <Link to="/auth" onClick={onLogOut}>
-            Log Out
-          </Link>
+          {isAuth ? (
+            <Fragment>
+              <Link to="/">Profile</Link>
+              <Link to="/orders">My Orders</Link>
+              <Link to="/auth" onClick={onLogOut}>
+                Log Out
+              </Link>
+            </Fragment>
+          ) : (
+            <Fragment>
+              <Link to="/auth">Log in</Link>
+            </Fragment>
+          )}
         </div>
       </li>
     </ul>
@@ -34,7 +41,7 @@ const navigationItems = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  isAuth: state.auth.idToken,
+  isAuth: state.user.userId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
