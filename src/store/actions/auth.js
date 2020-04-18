@@ -3,7 +3,7 @@ import { authenticateUser } from "../../services/Auth";
 import { userUiStartLoading, userUiStopLoading } from "./ui";
 
 import axios from "axios";
-import { getUser } from "./user";
+import { getUser, postUser } from "./user";
 import {
   API_SIGN_UP,
   API_SIGN_IN,
@@ -36,6 +36,7 @@ export const signUp = (email, password, username) => async (dispatch) => {
       const expiredTime =
         new Date().getTime() + (+tokenObject.data.expiresIn - 60) * 1000;
       await dispatch(setToken({ ...tokenObject.data, expiresIn: expiredTime }));
+      await dispatch(postUser({ ...tokenObject.data, displayName: username }));
       await dispatch(getUser({ ...tokenObject.data, username }));
       return null;
     }
@@ -76,16 +77,13 @@ export const checkAuthState = (token, refresh, expired) => async (dispatch) => {
   if (token) {
     if (expired >= currentTime) {
       await dispatch(getUser({ idToken: token }));
-      console.log("GO TO HOMEPAGE");
       return "Token hasn't expired: GO TO HOMEPAGE";
     } else {
       const newToken = await dispatch(refreshToken(refresh));
       await dispatch(getUser({ idToken: newToken }));
-      console.log("GO TO HOMEPAGE");
       return "Token expired but has been renewed: GO TO HOMEPAGE";
     }
   } else {
-    console.log("GO TO AUTH_PAGE");
     return "Token does not exist: GO TO AUTH_PAGE";
   }
 };

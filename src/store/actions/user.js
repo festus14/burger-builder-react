@@ -2,7 +2,7 @@ import { SET_USER } from "./actionTypes";
 import { userUiStartLoading, userUiStopLoading } from "./ui";
 
 import axios from "axios";
-import { API_GET_USER } from "../../util/constants";
+import { API_GET_USER, API_POST_USER } from "../../util/constants";
 
 export const setUser = (payload) => ({
   type: SET_USER,
@@ -41,19 +41,19 @@ export const getUser = (payload) => async (dispatch) => {
 export const postUser = (payload) => async (dispatch) => {
   dispatch(userUiStartLoading());
   try {
-    let userObject = await axios.post(API_GET_USER, {
+    let postObject = await axios.post(API_POST_USER, {
       idToken: payload.idToken,
+      displayName: payload.displayName,
+      deleteAttribute: ["PHOTO_URL"],
+      returnSecureToken: false,
     });
-    console.log(userObject.data);
-    // const { idToken, email, refreshToken, expiresIn, localId, username } = payloadSignUp;
-    // const {localId, email, displayName, idToken, registered, refreshToken, expiresIn} = payloadSignIn;
-    // You get an array containing: localId, email, displayName, and so on = userObject.data;
+    console.log(postObject.data);
     dispatch(userUiStopLoading());
-    if (userObject.status === 200) {
-      dispatch(setUser({ ...payload, ...userObject.data.users[0] }));
+    if (postObject.status === 200) {
+      dispatch(setUser(postObject.data));
       return null;
     }
-    return userObject.statusText;
+    return postObject.statusText;
   } catch (error) {
     dispatch(userUiStopLoading());
     console.log(error.message);

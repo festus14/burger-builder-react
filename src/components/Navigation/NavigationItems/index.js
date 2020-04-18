@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { logOut } from "../../../store/actions";
 
 const navigationItems = (props) => {
-  const { onLogOut, isAuth, username } = props;
+  const { onLogOut, isAuth, displayName } = props;
   return (
     <ul className={classes.NavigationItems}>
       <NavigationItem link="/" exact>
@@ -22,7 +22,7 @@ const navigationItems = (props) => {
         <div className={classes.DropDownOptions}>
           {isAuth ? (
             <Fragment>
-              <Link to="/">{username === "" ? "Profile" : username}</Link>
+              <Link to="/">{displayName ? displayName : "Profile"}</Link>
               <Link to="/orders">My Orders</Link>
               <Link to="/auth" onClick={onLogOut}>
                 Log Out
@@ -41,7 +41,7 @@ const navigationItems = (props) => {
 
 const mapStateToProps = (state) => ({
   isAuth: state.user.userId,
-  username: state.user.displayName,
+  displayName: state.user.displayName,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -9,3 +9,6 @@ export const API_REFRESH_TOKEN =
 
 export const API_GET_USER =
   "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyD7tF9pKLmAbExcLIDGOfhr00CEreNWats";
+
+export const API_POST_USER =
+  "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyD7tF9pKLmAbExcLIDGOfhr00CEreNWats";
