@@ -109,9 +109,10 @@ class ContactData extends Component {
       ingredients: this.props.ingredients,
       price: this.props.price,
       orderData: formData,
+      userId: this.props.userId,
     };
 
-    let error = await this.props.onAddOrder(order);
+    let error = await this.props.onAddOrder(order, this.props.token);
 
     if (!error) {
       this.props.history.push("/");
@@ -226,11 +227,13 @@ class ContactData extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  onAddOrder: (order) => dispatch(addOrder(order)),
+  onAddOrder: (order, token) => dispatch(addOrder(order, token)),
 });
 
 const mapStateToProps = (state) => ({
   isLoading: state.ui.isOrderLoading,
+  token: state.auth.token,
+  userId: state.user.userId,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactData);

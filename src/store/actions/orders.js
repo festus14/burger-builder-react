@@ -9,10 +9,12 @@ export const setOrders = (fetchedOrders) => {
   };
 };
 
-export const getOrders = () => async (dispatch) => {
+export const getOrders = (token, userId) => async (dispatch) => {
   try {
     dispatch(ordersUiStartLoading());
-    let allOrders = await fAxios.get("/orders.json");
+    let allOrders = await fAxios.get(
+      `/orders.json?auth=${token}&orderBy="userId"&equalTo="${userId}"`
+    );
     dispatch(ordersUiStopLoading());
     if (allOrders.statusText === "OK") {
       const fetchedOrders = [];
@@ -31,13 +33,13 @@ export const getOrders = () => async (dispatch) => {
     return error.message;
   }
 };
-export const addOrder = (order) => async (dispatch) => {
+export const addOrder = (order, token) => async (dispatch) => {
   try {
     dispatch(ordersUiStartLoading());
-    let addOrder = await fAxios.post("/orders.json", order);
+    let addOrder = await fAxios.post(`/orders.json?auth=${token}`, order);
     dispatch(ordersUiStopLoading());
     if (addOrder.statusText === "OK") {
-      await dispatch(getOrders())
+      await dispatch(getOrders(token));
       return null;
     }
     return addOrder.statusText;

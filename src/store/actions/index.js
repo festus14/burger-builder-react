@@ -22,6 +22,7 @@ export {
   forgotPassword,
   checkAuthState,
   refreshToken,
+  setToken,
 } from "./auth";
 
 export { getUser, postUser } from "./user";

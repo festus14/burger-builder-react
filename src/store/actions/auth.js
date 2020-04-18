@@ -61,6 +61,7 @@ export const logIn = (email, password) => async (dispatch) => {
       const expiredTime =
         new Date().getTime() + (+tokenObject.data.expiresIn - 60) * 1000;
       await dispatch(setToken({ ...tokenObject.data, expiresIn: expiredTime }));
+      await dispatch(postUser({ ...tokenObject.data }));
       await dispatch(getUser(tokenObject.data));
       return null;
     }

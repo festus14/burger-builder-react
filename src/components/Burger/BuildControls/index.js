@@ -2,6 +2,8 @@ import React from "react";
 
 import classes from "./style.css";
 import BuildControl from "./BuildControl";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 const buildControls = (props) => {
   let controls = [
@@ -18,7 +20,10 @@ const buildControls = (props) => {
     .reduce((sum, el) => {
       return sum + el;
     }, 0);
-  let able = sum > 0;
+  const able = sum > 0 || !props.isAuth;
+  const orderDecision = props.isAuth
+    ? props.ordered
+    : () => props.history.push("/auth");
 
   return (
     <div className={classes.BuildControls}>
@@ -38,12 +43,16 @@ const buildControls = (props) => {
       <button
         className={classes.OrderButton}
         disabled={!able}
-        onClick={props.ordered}
+        onClick={orderDecision}
       >
-        ORDER NOW
+        {props.isAuth ? "ORDER NOW" : "SIGN IN TO MAKE YOUR ORDER"}
       </button>
     </div>
   );
 };
 
-export default buildControls;
+const mapStateToProps = (state) => ({
+  isAuth: state.user.userId,
+});
+
+export default connect(mapStateToProps)(withRouter(buildControls));

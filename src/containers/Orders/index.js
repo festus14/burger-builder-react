@@ -12,7 +12,7 @@ class Orders extends Component {
   };
 
   async componentDidMount() {
-    let error = await this.props.onGetOrders();
+    let error = await this.props.onGetOrders(this.props.token, this.props.userId);
     if (error) this.setState({ error: error });
   }
 
@@ -56,10 +56,12 @@ class Orders extends Component {
 const mapStateToProps = (state) => ({
   orders: state.orders.orders,
   isLoading: state.ui.isOrderLoading,
+  token: state.auth.token,
+  userId: state.user.userId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onGetOrders: () => dispatch(getOrders()),
+  onGetOrders: (token, userId) => dispatch(getOrders(token, userId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Orders);
