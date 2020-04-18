@@ -15,9 +15,16 @@ export {
 
 export { getOrders, addOrder } from "./orders";
 
-export { signUp, logIn, logOut, forgotPassword } from "./auth";
+export {
+  signUp,
+  logIn,
+  logOut,
+  forgotPassword,
+  checkAuthState,
+  refreshToken,
+} from "./auth";
 
-export { getUser } from "./user";
+export { getUser, postUser } from "./user";
 
 export const resetApp = () => {
   return async (dispatch) => {

@@ -1,7 +1,8 @@
 import { SET_USER } from "./actionTypes";
 import { userUiStartLoading, userUiStopLoading } from "./ui";
 
-import fAxios from "../../util/axios-orders";
+import axios from "axios";
+import { API_GET_USER } from "../../util/constants";
 
 export const setUser = (payload) => ({
   type: SET_USER,
@@ -17,14 +18,39 @@ export const setUser = (payload) => ({
 export const getUser = (payload) => async (dispatch) => {
   dispatch(userUiStartLoading());
   try {
-    let userObject = await fAxios.get("/profile.json", payload.localId);
+    let userObject = await axios.post(API_GET_USER, {
+      idToken: payload.idToken,
+    });
     console.log(userObject.data);
     // const { idToken, email, refreshToken, expiresIn, localId, username } = payloadSignUp;
     // const {localId, email, displayName, idToken, registered, refreshToken, expiresIn} = payloadSignIn;
-    // const { username, displayName, address,  zipCode, country } = userObject.data;
+    // You get an array containing: localId, email, displayName, and so on = userObject.data;
     dispatch(userUiStopLoading());
-    if (userObject.statusText === "OK") {
-      dispatch(setUser({ ...payload, ...userObject.data }));
+    if (userObject.status === 200) {
+      dispatch(setUser({ ...payload, ...userObject.data.users[0] }));
+      return null;
+    }
+    return userObject.statusText;
+  } catch (error) {
+    dispatch(userUiStopLoading());
+    console.log(error.message);
+    return error.message;
+  }
+};
+
+export const postUser = (payload) => async (dispatch) => {
+  dispatch(userUiStartLoading());
+  try {
+    let userObject = await axios.post(API_GET_USER, {
+      idToken: payload.idToken,
+    });
+    console.log(userObject.data);
+    // const { idToken, email, refreshToken, expiresIn, localId, username } = payloadSignUp;
+    // const {localId, email, displayName, idToken, registered, refreshToken, expiresIn} = payloadSignIn;
+    // You get an array containing: localId, email, displayName, and so on = userObject.data;
+    dispatch(userUiStopLoading());
+    if (userObject.status === 200) {
+      dispatch(setUser({ ...payload, ...userObject.data.users[0] }));
       return null;
     }
     return userObject.statusText;

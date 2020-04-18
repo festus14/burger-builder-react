@@ -3,6 +3,8 @@ import SecureLS from "secure-ls";
 var ls = new SecureLS();
 
 export const isAuthenticated = () => ls.get("token");
+export const hasRefreshToken = () => ls.get("refresh");
+export const hasExpiredTime = () => ls.get("expiresIn");
 
 // export const getAuthorizationHeader = () => `Bearer ${isAuthenticated()}`;
 
