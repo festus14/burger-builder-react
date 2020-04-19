@@ -4,71 +4,83 @@
   list-style: none;
   display: flex;
   flex-flow: column;
-  align-items: center;
+  align-items: left;
   height: 100%;
 }
 
 .Profile {
-  margin: 10px 0;
+  display: flex;
+  align-items: left;
   box-sizing: border-box;
+  color: white;
+  border-bottom: 4px solid transparent;
+  padding: 16px 0;
+}
+
+.DropDownOptions {
+  display: none;
+  position: relative;
+  top: 25px;
+  left: -60px;
+  background-color: #f9f9f9;
+  min-width: 12%;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.DropDownOptions a {
+  color: #707070;
+  padding: 12px 16px;
+  text-decoration: none;
   display: block;
-  width: 100%;
+}
+
+.Label {
   color: #8f5c2c;
-  box-sizing: border-box;
+  padding: 10px;
 }
 
-.Profile:hover,
-.Profile:active {
-  color: #40a4c8;
-  cursor: pointer;
+.DropDownOptions a:hover {
+  background-color: #40a4c8;
+  color: #fff;
 }
 
+.Profile:hover .DropDownOptions {
+  display: block;
+}
 @media (min-width: 500px) {
   .NavigationItems {
     flex-flow: row;
   }
 
+  .NavigationItems span {
+    display: none;
+  }
+
   .Profile {
-    margin: 0;
-    display: flex;
-    height: 100%;
-    width: auto;
-    align-items: center;
-    color: white;
-    border-bottom: 4px solid transparent;
-    padding: 16px 10px;
+    padding: 16px;
   }
 
   .Profile:hover {
     background-color: #8f5c2c;
     border-bottom: 4px solid #40a4c8;
-    color: white;
   }
 
   .DropDownOptions {
-    display: none;
     position: absolute;
-    top: 56px;
-    right: 10px;
-    background-color: #f9f9f9;
-    min-width: 12%;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
+    top: 102%;
+    left: 88%;
+    min-width: 20%;
   }
 
   .DropDownOptions a {
-    color: #707070;
     padding: 12px 16px;
     text-decoration: none;
-    display: block;
   }
 
-  .DropDownOptions a:hover {
-    background-color: #40a4c8;
-    color: #fff;
-  }
-
-  .Profile:hover .DropDownOptions {
-    display: block;
+  .Label {
+    display: none;
+    padding: 0;
+    margin: 0;
   }
 }
