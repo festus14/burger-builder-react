@@ -18,7 +18,14 @@ const navigationItems = (props) => {
         </span>{" "}
         Burger Builder
       </NavigationItem>
-      {isAuth ? <NavigationItem link="/orders">Orders</NavigationItem> : null}
+      {isAuth ? (
+        <NavigationItem link="/orders">
+          <span>
+            <Logo height={30} width={25} />
+          </span>{" "}
+          Orders
+        </NavigationItem>
+      ) : null}
       <li className={classes.Profile}>
         <div style={{ textAlign: "center", minWidth: "35px" }}>
           <img width="20px" src={userIcon} alt="User" />

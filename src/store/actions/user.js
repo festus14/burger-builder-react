@@ -21,7 +21,6 @@ export const getUser = (payload) => async (dispatch) => {
     let userObject = await axios.post(API_GET_USER, {
       idToken: payload.idToken,
     });
-    console.log(userObject.data);
     // const { idToken, email, refreshToken, expiresIn, localId, username } = payloadSignUp;
     // const {localId, email, displayName, idToken, registered, refreshToken, expiresIn} = payloadSignIn;
     // You get an array containing: localId, email, displayName, and so on = userObject.data;
@@ -33,7 +32,6 @@ export const getUser = (payload) => async (dispatch) => {
     return userObject.statusText;
   } catch (error) {
     dispatch(userUiStopLoading());
-    console.log(error.message);
     return error.message;
   }
 };
@@ -47,7 +45,6 @@ export const postUser = (payload) => async (dispatch) => {
       deleteAttribute: ["PHOTO_URL"],
       returnSecureToken: false,
     });
-    console.log(postObject.data);
     dispatch(userUiStopLoading());
     if (postObject.status === 200) {
       dispatch(setUser(postObject.data));
@@ -56,7 +53,6 @@ export const postUser = (payload) => async (dispatch) => {
     return postObject.statusText;
   } catch (error) {
     dispatch(userUiStopLoading());
-    console.log(error.message);
     return error.message;
   }
 };

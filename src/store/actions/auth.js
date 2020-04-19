@@ -68,7 +68,6 @@ export const logIn = (email, password) => async (dispatch) => {
     return tokenObject.statusText;
   } catch (error) {
     dispatch(userUiStopLoading());
-    console.log(error.message);
     return error.message;
   }
 };
@@ -97,7 +96,6 @@ export const refreshToken = (refresh) => async (dispatch) => {
       refresh_token: refresh,
     };
     const refreshObject = await axios.post(API_REFRESH_TOKEN, refreshData);
-    console.log(refreshObject);
     dispatch(userUiStopLoading());
     if (refreshObject.status === 200) {
       const { id_token, refresh_token, expires_in } = refreshObject.data;
@@ -113,7 +111,6 @@ export const refreshToken = (refresh) => async (dispatch) => {
     return null;
   } catch (error) {
     dispatch(userUiStopLoading());
-    console.log(error.message);
     return null;
   }
 };
@@ -125,7 +122,6 @@ export const logOut = () => async (dispatch) => {
     dispatch(userUiStopLoading());
     return null;
   } catch (error) {
-    console.log(error);
     return error.message || "Something went wrong. Check your internet";
   }
 };
